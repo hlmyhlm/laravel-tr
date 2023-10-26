@@ -16,11 +16,22 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     {{-- Tambah disini utk hide menu admin --}}
-                    @if(auth()->user()->role_id === 1) 
+                    @if(auth()->user()->role_id === \App\Enums\Role::ADMINISTRATOR->value)
                     <x-nav-link :href="route('companies.index')" :active="request()->routeIs('companies.index')">
                         {{ __('Companies') }}
                     </x-nav-link>
-                    @endif
+                @endif
+                @if(auth()->user()->role_id === \App\Enums\Role::COMPANY_OWNER->value) 
+                    <x-nav-link :href="route('companies.users.index', auth()->user()->company_id)" :active="request()->routeIs('companies.users.*')">
+                        {{ __('Administrators') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('companies.guides.index', auth()->user()->company_id)" :active="request()->routeIs('companies.guides.*')"> 
+                        {{ __('Guides') }}
+                    </x-nav-link> 
+                    <x-nav-link :href="route('companies.activities.index', auth()->user()->company_id)" :active="request()->routeIs('companies.activities.*')"> 
+                        {{ __('Activities') }}
+                    </x-nav-link>
+                @endif 
                     {{-- sampai sini --}}
                 </div>
             </div>
